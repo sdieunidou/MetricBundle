@@ -51,6 +51,56 @@ class Client
     }
 
     /**
+     * @param string $name
+     * @param array $tags
+     */
+    public function increment($name, array $tags = [])
+    {
+        $this->add($name, [
+            'value' => 1
+        ], $tags);
+    }
+
+    /**
+     * @param string $name
+     * @param array $tags
+     */
+    public function decrement($name, array $tags = [])
+    {
+        $this->add($name, [
+            'value' => -1
+        ], $tags);
+    }
+
+    /**
+     * @param string $name
+     * @param int $time
+     * @param array $tags
+     */
+    public function timing($name, $time = null, array $tags = [])
+    {
+        if (null !== $time) {
+            $time = time();
+        }
+        
+        $this->add($name, [
+            'value' => $time
+        ], $tags);
+    }
+
+    /**
+     * @param string $name
+     * @param $value
+     * @param array $tags
+     */
+    public function measure($name, $value, array $tags = [])
+    {
+        $this->add($name, [
+            'value' => $value
+        ], $tags);
+    }
+
+    /**
      * Add metric to buffer
      *
      * @param $name
