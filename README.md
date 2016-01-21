@@ -2,6 +2,12 @@
 
 Really simple bundle to add metrics with InfluxDB in your Symfony2 application.
 
+# Installation
+
+```
+composer require mtxserv/metric-bundle
+```
+
 # Configuration
 
 Add in `config_prod.yml`
