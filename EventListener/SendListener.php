@@ -53,7 +53,7 @@ class SendListener
     {
         $request   = $event->getRequest();
 
-        $this->client->add('plplp', [
+        $this->client->add('app_profiler', [
             'memory'         => $this->getMemoryPeak(),
             'execution_time' => $this->getExecutionTime($event),
         ], [
