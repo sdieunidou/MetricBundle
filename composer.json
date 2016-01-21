@@ -1,6 +1,7 @@
 {
 	"name": "mtxserv/metric-bundle",
 	"description": "Add influxdb metrics in your sf2 app",
+    	"homepage": "https://github.com/sdieunidou/MetricBundle",
 	"type": "symfony-bundle",
 	"license": "MIT",
 	"keywords": [
