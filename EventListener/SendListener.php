@@ -3,7 +3,7 @@
 namespace MetricBundle\EventListener;
 
 use MetricBundle\Client\Client;
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 
 /**
  * Class SendListener.
@@ -33,9 +33,9 @@ class SendListener
     }
 
     /**
-     * @param PostResponseEvent $event
+     * @param FinishRequestEvent $event
      */
-    public function onKernelTerminate(PostResponseEvent $event)
+    public function onKernelTerminate(FinishRequestEvent $event)
     {
         if ($event->isMasterRequest()) {
             if ($this->enableCollector) {
@@ -47,13 +47,13 @@ class SendListener
     }
 
     /**
-     * @param PostResponseEvent $event
+     * @param FinishRequestEvent $event
      */
-    protected function collectData(PostResponseEvent $event)
+    protected function collectData(FinishRequestEvent $event)
     {
         $request   = $event->getRequest();
 
-        $this->client->add('app_profiler', [
+        $this->client->add('plplp', [
             'memory'         => $this->getMemoryPeak(),
             'execution_time' => $this->getExecutionTime($event),
         ], [
@@ -74,11 +74,11 @@ class SendListener
     }
 
     /**
-     * @param PostResponseEvent $event
+     * @param FinishRequestEvent $event
      *
      * @return float
      */
-    protected function getExecutionTime(PostResponseEvent $event)
+    protected function getExecutionTime(FinishRequestEvent $event)
     {
         $request   = $event->getRequest();
         $startTime = $request->server->get('REQUEST_TIME_FLOAT', $request->server->get('REQUEST_TIME'));
