@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="metric" class="MetricBundle\Client\Client">
+            <argument type="service" id="influxdb.writer" />
+        </service>
+
+        <service id="influxdb.writer" class="InfluxDB\Adapter\Udp\Writer">
+            <argument type="service" id="influxdb.udp_options" />
+        </service>
+
+        <service id="influxdb.udp_options" class="InfluxDB\Adapter\Udp\Options">
+            <call method="setHost">
+                <argument>%metric.host%</argument>
+            </call>
+            <call method="setPort">
+                <argument>%metric.port%</argument>
+            </call>
+        </service>
+
+        <service id="metric.send_listener" class="MetricBundle\EventListener\SendListener">
+            <argument type="service" id="metric" />
+            <argument type="service" id="debug.stopwatch" />
+            <argument>%metric.enable_collector%</argument>
+            <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" />
+        </service>
+    </services>
+
+</container>
