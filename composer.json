@@ -14,15 +14,15 @@
 		"homepage": "https://www.mtxserv.fr/"
 	}],
 	"config": {
-		"vendor - dir": "vendor"
+		"vendor-dir": "vendor"
 	},
 	"require": {
 		"php": ">=5.4.0",
-		"corley / influxdb - sdk": "~0.9.2",
+		"corley/influxdb-sdk": "~0.9.2",
 		"symfony/framework-bundle": "~2.3|~3.0"
 	},
 	"autoload": {
-		"psr - 4": {
+		"psr-4": {
 			"MetricBundle\\": ""
 		}
 	}
