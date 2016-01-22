@@ -51,7 +51,7 @@ class SendListener
     protected function collectData(PostResponseEvent $event)
     {
         $request   = $event->getRequest();
-        $this->client->add('app_profiler', [
+        $this->client->add('app.profiler', [
             'memory'         => $this->getMemoryPeak(),
             'execution_time' => $this->getExecutionTime($event),
         ], [
