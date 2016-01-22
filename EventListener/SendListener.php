@@ -3,7 +3,7 @@
 namespace MetricBundle\EventListener;
 
 use MetricBundle\Client\Client;
-use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 
 /**
  * Class SendListener.
@@ -33,35 +33,33 @@ class SendListener
     }
 
     /**
-     * @param FinishRequestEvent $event
+     * @param PostResponseEvent $event
      */
-    public function onKernelTerminate(FinishRequestEvent $event)
+    public function onKernelTerminate(PostResponseEvent $event)
     {
         if ($event->isMasterRequest()) {
             if ($this->enableCollector) {
                 $this->collectData($event);
             }
-
-            $this->client->send();
         }
+        $this->client->send();
     }
 
     /**
-     * @param FinishRequestEvent $event
+     * @param PostResponseEvent $event
      */
-    protected function collectData(FinishRequestEvent $event)
+    protected function collectData(PostResponseEvent $event)
     {
         $request   = $event->getRequest();
-
-        $this->client->add('app_profiler', [
+        $this->client->add('app_test9', [
             'memory'         => $this->getMemoryPeak(),
             'execution_time' => $this->getExecutionTime($event),
         ], [
-            'action' => $request->attributes->get('_controller'),
-            'method' => $request->getMethod(),
-            'client_ip' => $request->getClientIp(),
-            'scheme' => $request->getScheme(),
-            'uri' => $request->getUri(),
+            'method' => $request->server->get('REQUEST_METHOD'),
+            'client_ip' => $request->server->get('REMOTE_ADDR'),
+            'https' => $request->server->get('HTTPS'),
+            'uri' => $request->server->get('REQUEST_URI'),
+            'host' => $request->server->get('HTTP_HOST'),
         ]);
     }
 
@@ -74,11 +72,11 @@ class SendListener
     }
 
     /**
-     * @param FinishRequestEvent $event
+     * @param PostResponseEvent $event
      *
      * @return float
      */
-    protected function getExecutionTime(FinishRequestEvent $event)
+    protected function getExecutionTime(PostResponseEvent $event)
     {
         $request   = $event->getRequest();
         $startTime = $request->server->get('REQUEST_TIME_FLOAT', $request->server->get('REQUEST_TIME'));
