@@ -48,7 +48,7 @@ $this->get('metric')->timing('app_queue', time());
 ## Measure serie
 
 ```
-$this->get('metric')->add('app_queue', 10.0);
+$this->get('metric')->measure('app_queue', 10.0);
 ```
 
 ## Add tags
