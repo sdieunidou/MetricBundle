@@ -27,6 +27,11 @@
             <argument>%metric.enable_collector%</argument>
             <tag name="kernel.event_listener" event="kernel.terminate" method="onKernelTerminate" />
         </service>
+
+        <service id="metric.console_listener" class="MetricBundle\EventListener\ConsoleListener">
+            <argument type="service" id="metric" />
+            <tag name="kernel.event_listener" event="console.terminate" method="onTerminate" />
+        </service>
     </services>
 
 </container>
