@@ -58,7 +58,7 @@ class SendListener
             'method' => $request->server->get('REQUEST_METHOD'),
             'client_ip' => $request->server->get('REMOTE_ADDR'),
             'https' => $request->server->get('HTTPS'),
-            'uri' => $request->server->get('PATH_INFO'),
+            'uri' => $request->server->get('DOCUMENT_URI'),
             'host' => $request->server->get('HTTP_HOST'),
         ]);
     }
